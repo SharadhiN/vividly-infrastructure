@@ -8,8 +8,11 @@ resource "google_cloud_run_v2_service" "service" {
       max_instance_count = var.max_instances
     }
     vpc_access {
-      connector = var.vpc_connector_id
-      egress    = var.vpc_egress
+      egress = var.vpc_egress
+      network_interfaces {
+        network    = var.vpc_network
+        subnetwork = var.vpc_subnet
+      }
     }
     service_account = var.service_account_email
     containers {

@@ -60,10 +60,11 @@ module "backend" {
   service_name          = "tailtales-api-${var.env}"
   image                 = local.backend_image
   container_port        = 3000
-  vpc_connector_id      = module.vpc.connector_id
+  vpc_network           = module.vpc.vpc_name
+  vpc_subnet            = module.vpc.subnet_name
   vpc_egress            = "PRIVATE_RANGES_ONLY" # Private IPs (DB/Redis) via VPC; internet (MessageCentral, SMTP) via direct egress
   service_account_email = "194298394361-compute@developer.gserviceaccount.com"
-  min_instances         = 1
+  min_instances         = 0
   max_instances         = 5
   cpu                   = "1"
   memory                = "1Gi"
@@ -95,12 +96,12 @@ module "backend" {
     MESSAGECENTRAL_COUNTRY     = "tailtales-mc-country"
 
     # Email — Resend SMTP
-    SMTP_HOST = "tailtales-smtp-host"
-    SMTP_PORT = "tailtales-smtp-port"
+    SMTP_HOST   = "tailtales-smtp-host"
+    SMTP_PORT   = "tailtales-smtp-port"
     SMTP_SECURE = "tailtales-smtp-secure"
-    SMTP_USER = "tailtales-smtp-user"
-    SMTP_PASS = "tailtales-smtp-pass"
-    SMTP_FROM = "tailtales-smtp-from"
+    SMTP_USER   = "tailtales-smtp-user"
+    SMTP_PASS   = "tailtales-smtp-pass"
+    SMTP_FROM   = "tailtales-smtp-from"
   }
 }
 
@@ -118,10 +119,11 @@ module "frontend" {
   service_name          = "tailtales-frontend-${var.env}"
   image                 = local.frontend_image
   container_port        = 8080
-  vpc_connector_id      = module.vpc.connector_id
+  vpc_network           = module.vpc.vpc_name
+  vpc_subnet            = module.vpc.subnet_name
   vpc_egress            = "ALL_TRAFFIC" # Frontend proxies to backend only; all traffic via VPC is fine
   service_account_email = "194298394361-compute@developer.gserviceaccount.com"
-  min_instances         = 1
+  min_instances         = 0
   max_instances         = 5
   cpu                   = "1"
   memory                = "512Mi"

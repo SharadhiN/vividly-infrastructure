@@ -20,7 +20,8 @@ variable "container_port" {
 }
 
 variable "vpc_connector_id" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "service_account_email" {
@@ -66,4 +67,13 @@ variable "vpc_egress" {
     condition     = contains(["ALL_TRAFFIC", "PRIVATE_RANGES_ONLY"], var.vpc_egress)
     error_message = "vpc_egress must be either ALL_TRAFFIC or PRIVATE_RANGES_ONLY."
   }
+}
+variable "vpc_network" {
+  type        = string
+  description = "VPC network name for Direct VPC egress"
+}
+
+variable "vpc_subnet" {
+  type        = string
+  description = "Subnet name for Direct VPC egress"
 }

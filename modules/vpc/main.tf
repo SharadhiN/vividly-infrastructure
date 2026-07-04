@@ -12,16 +12,6 @@ resource "google_compute_subnetwork" "app" {
   project       = var.project_id
 }
 
-resource "google_vpc_access_connector" "connector" {
-  name          = "tailtales-${var.env}-conn"
-  region        = var.region
-  ip_cidr_range = "10.8.0.0/28"
-  network       = google_compute_network.vpc.name
-  project       = var.project_id
-  min_instances = 2
-  max_instances = 3
-}
-
 resource "google_compute_global_address" "sql_private_ip" {
   name          = "tailtales-${var.env}-sql-ip"
   purpose       = "VPC_PEERING"
