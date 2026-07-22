@@ -86,7 +86,7 @@ module "backend" {
     # Auth & Cache
     JWT_SECRET  = "tailtales-jwt-secret"
     REDIS_URL   = "tailtales-redis-url"
-    CORS_ORIGIN = "tailtales-cors-origin"
+    CORS_ORIGINS = "tailtales-cors-origin"
 
     # SMS — MessageCentral
     SMS_PROVIDER               = "tailtales-sms-provider"
@@ -121,7 +121,7 @@ module "frontend" {
   container_port        = 8080
   vpc_network           = module.vpc.vpc_name
   vpc_subnet            = module.vpc.subnet_name
-  vpc_egress            = "ALL_TRAFFIC" # Frontend proxies to backend only; all traffic via VPC is fine
+  vpc_egress            = "PRIVATE_RANGES_ONLY" # Frontend proxies to backend public URL; internet must go direct
   service_account_email = "194298394361-compute@developer.gserviceaccount.com"
   min_instances         = 0
   max_instances         = 5
